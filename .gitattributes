@@ -3,3 +3,4 @@
 *.md text eol=lf
 /mirror/manifest.json text eol=lf
 /mirror/pages/** -text
+/mirror/images/** binary

@@ -2,6 +2,7 @@
 
 $ErrorActionPreference = 'Stop'
 $api = 'https://no-mans-sky.fandom.com/uk/api.php'
+$userAgent = 'NMSUAWikiMirror/1.0 (https://no-mans-sky.fandom.com/uk/)'
 $root = (Resolve-Path -LiteralPath $PSScriptRoot).ProviderPath
 $mirror = Join-Path $root 'mirror'
 $utf8 = [System.Text.UTF8Encoding]::new($false)
@@ -11,7 +12,7 @@ function Get-WikiResponse([System.Collections.IDictionary] $parameters) {
         '{0}={1}' -f [uri]::EscapeDataString($_.Key), [uri]::EscapeDataString([string]$_.Value)
     }) -join '&'
     $response = Invoke-WebRequest -Uri "${api}?action=query&format=json&formatversion=2&$query" `
-        -UserAgent 'NMSUAWikiMirror/1.0 (https://no-mans-sky.fandom.com/uk/)' `
+        -UserAgent $userAgent `
         -TimeoutSec 30 -MaximumRetryCount 2 -RetryIntervalSec 2
     $data = $response.Content | ConvertFrom-Json -AsHashtable
     if ($data.error -or $data.warnings) {
@@ -22,6 +23,92 @@ function Get-WikiResponse([System.Collections.IDictionary] $parameters) {
         throw 'Fandom API returned no query result.'
     }
     return $data
+}
+
+function Get-WikiBatches([hashtable] $parameters) {
+    $continuation = @{}
+    do {
+        $response = Get-WikiResponse ($parameters + $continuation)
+        $response
+        $continuation = @{}
+        if ($response.continue) {
+            foreach ($key in $response.continue.Keys) { $continuation[$key] = $response.continue[$key] }
+        }
+        Start-Sleep -Milliseconds 100
+    } while ($continuation.Count)
+}
+
+function Get-Sha256([byte[]] $bytes) {
+    [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($bytes)).ToLowerInvariant()
+}
+
+function Save-WikiImages([string] $destination, [string] $existingMirror) {
+    $priorImages = @{}
+    $priorManifest = Join-Path $existingMirror 'manifest.json'
+    if (Test-Path -LiteralPath $priorManifest) {
+        $previous = Get-Content -LiteralPath $priorManifest -Raw -Encoding utf8 | ConvertFrom-Json -AsHashtable
+        foreach ($image in $previous.uploads) { $priorImages[$image.filename] = $image }
+    }
+
+    $seenNames = [System.Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+    $imageFolder = Join-Path $destination 'images'
+    $parameters = @{ list = 'allimages'; ailimit = 'max'; aiprop = 'timestamp|url|size|sha1|mime' }
+    foreach ($response in (Get-WikiBatches $parameters)) {
+        foreach ($upload in $response.query.allimages) {
+            if ($upload.mime -notlike 'image/*') { continue }
+            $name = [string]$upload.name
+            if (!$name -or $name.Length -gt 255 -or $name -match '[<>:"/\\|?*\x00-\x1F]|[. ]$' -or
+                $name -match '^(CON|PRN|AUX|NUL|COM[1-9¹²³]|LPT[1-9¹²³]) *(\.|$)' -or !$seenNames.Add($name)) {
+                throw "Cannot store the Fandom filename verbatim: $name"
+            }
+            $uri = [uri]$upload.url
+            if ($uri.Scheme -ne 'https' -or $uri.Host -ne 'static.wikia.nocookie.net' -or
+                !$uri.AbsolutePath.StartsWith('/no-mans-sky/images/') -or $upload.sha1 -notmatch '^[0-9a-f]{40}$' -or $upload.size -le 0) {
+                throw "Fandom returned invalid image metadata for $name."
+            }
+            $original = [UriBuilder]::new($uri)
+            $original.Query = if ($uri.Query) { $uri.Query.TrimStart('?') + '&format=original' } else { 'format=original' }
+
+            $prior = $priorImages[$name]
+            $existingFile = Join-Path $existingMirror 'images' $name
+            $bytes = $null
+            if ($prior.fandomSha1 -eq $upload.sha1 -and (Test-Path -LiteralPath $existingFile -PathType Leaf)) {
+                $candidate = [IO.File]::ReadAllBytes($existingFile)
+                if ((Get-Sha256 $candidate) -eq $prior.sha256) { $bytes = $candidate }
+            }
+            if ($null -eq $bytes) {
+                $download = Invoke-WebRequest -Uri $original.Uri -UserAgent $userAgent -MaximumRedirection 0 `
+                    -TimeoutSec 30 -MaximumRetryCount 2 -RetryIntervalSec 2
+                $mime = ([string]($download.Headers['Content-Type'] | Select-Object -First 1)).Split(';')[0]
+                if ($mime -ne $upload.mime -or $download.Content -isnot [byte[]] -or $download.Content.Length -eq 0) {
+                    throw "Fandom did not serve $name in its uploaded format ($($upload.mime))."
+                }
+                $bytes = $download.Content
+                Start-Sleep -Milliseconds 100
+            }
+
+            $servedSha1 = [Convert]::ToHexString([Security.Cryptography.SHA1]::HashData($bytes)).ToLowerInvariant()
+            [void][IO.Directory]::CreateDirectory($imageFolder)
+            [IO.File]::WriteAllBytes((Join-Path $imageFolder $name), $bytes)
+            [ordered]@{
+                filename = $name
+                title = $upload.title
+                file = "images/$name"
+                descriptionUrl = $upload.descriptionurl
+                downloadUrl = $original.Uri.AbsoluteUri
+                uploadTimestamp = ([datetimeoffset]$upload.timestamp).UtcDateTime.ToString('yyyy-MM-ddTHH:mm:ssZ')
+                mime = $upload.mime
+                width = $upload.width
+                height = $upload.height
+                fandomSize = $upload.size
+                fandomSha1 = $upload.sha1
+                savedSize = $bytes.Length
+                sha256 = Get-Sha256 $bytes
+                matchesFandomUpload = $bytes.Length -eq $upload.size -and $servedSha1 -eq $upload.sha1
+            }
+        }
+    }
+    if ($seenNames.Count -eq 0) { throw 'Fandom returned no uploaded images.' }
 }
 
 function Get-FileLabel([string] $value) {
@@ -48,6 +135,82 @@ function Assert-MirrorDirectory([string] $path) {
     }
     if (Get-ChildItem -LiteralPath $path -Recurse -Force -Attributes ReparsePoint | Select-Object -First 1) {
         throw "Refusing to move or remove a directory containing a link: $path"
+    }
+}
+
+function Get-MirrorFiles([string] $directory) {
+    $files = [System.Collections.Generic.Dictionary[string, IO.FileInfo]]::new([StringComparer]::Ordinal)
+    foreach ($file in (Get-ChildItem -LiteralPath $directory -Recurse -Force -File)) {
+        $files.Add([IO.Path]::GetRelativePath($directory, $file.FullName), $file)
+    }
+    return $files
+}
+
+function Publish-WikiMirror([string] $incoming, [string] $current, [string] $rollback) {
+    Assert-MirrorDirectory $incoming
+    if (!(Test-Path -LiteralPath $current)) {
+        [IO.Directory]::Move($incoming, $current)
+        return
+    }
+    Assert-MirrorDirectory $current
+    $existingFiles = Get-MirrorFiles $current
+    $newFiles = Get-MirrorFiles $incoming
+    $removed = @($existingFiles.Keys | Where-Object { !$newFiles.ContainsKey($_) })
+    $changed = @(
+        foreach ($relative in $newFiles.Keys) {
+            $new = $newFiles[$relative]
+            if (!$existingFiles.ContainsKey($relative) -or $existingFiles[$relative].Length -ne $new.Length -or
+                (Get-FileHash -LiteralPath $existingFiles[$relative].FullName).Hash -ne (Get-FileHash -LiteralPath $new.FullName).Hash) {
+                $relative
+            }
+        }
+    )
+    # Remove old names first for case-only renames on Windows. Publish the manifest last.
+    $paths = @($removed) + @($changed | Where-Object { $_ -ne 'manifest.json' }) + @($changed | Where-Object { $_ -eq 'manifest.json' })
+    foreach ($relative in $paths) {
+        if ($existingFiles.ContainsKey($relative)) {
+            $copy = Join-Path $rollback $relative
+            [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($copy))
+            [IO.File]::Copy($existingFiles[$relative].FullName, $copy)
+        }
+    }
+
+    $applied = [System.Collections.Generic.List[string]]::new()
+    try {
+        foreach ($relative in $paths) {
+            $target = Join-Path $current $relative
+            if ($newFiles.ContainsKey($relative)) {
+                [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($target))
+                [IO.File]::Move($newFiles[$relative].FullName, $target, $true)
+            } else {
+                [IO.File]::Delete($target)
+            }
+            $applied.Add($relative)
+        }
+    } catch {
+        $publishError = $_
+        try {
+            $applied.Reverse()
+            foreach ($relative in $applied) {
+                $target = Join-Path $current $relative
+                if ($existingFiles.ContainsKey($relative)) {
+                    [IO.File]::Copy((Join-Path $rollback $relative), $target, $true)
+                } else {
+                    [IO.File]::Delete($target)
+                }
+            }
+        } catch {
+            throw "Could not restore the mirror. Recovery files are in $rollback. $($_.Exception.Message)"
+        }
+        if (Test-Path -LiteralPath $rollback) {
+            Assert-MirrorDirectory $rollback
+            Remove-Item -LiteralPath $rollback -Recurse -Force
+        }
+        throw $publishError
+    }
+    if (Test-Path -LiteralPath $rollback) {
+        Assert-MirrorDirectory $rollback
+        Remove-Item -LiteralPath $rollback -Recurse -Force
     }
 }
 
@@ -82,9 +245,7 @@ try {
             prop = 'info|revisions'; inprop = 'url'; rvslots = '*'
             rvprop = 'ids|timestamp|contentmodel|content'
         }
-        $continuation = @{}
-        do {
-            $response = Get-WikiResponse ($parameters + $continuation)
+        foreach ($response in (Get-WikiBatches $parameters)) {
             foreach ($page in $response.query.pages) {
                 $revision = $page.revisions | Select-Object -First 1
                 if ($page.ns -ne $namespace.id -or $page.pageid -le 0 -or
@@ -109,7 +270,7 @@ try {
                         file = $file
                         contentModel = $slot.contentmodel
                         contentFormat = $slot.contentformat
-                        sha256 = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($utf8.GetBytes($slot.content))).ToLowerInvariant()
+                        sha256 = Get-Sha256 ($utf8.GetBytes($slot.content))
                     }
                 }
                 $pages.Add([ordered]@{
@@ -124,46 +285,26 @@ try {
                     slots = $slots
                 })
             }
-            $continuation = @{}
-            if ($response.continue) {
-                foreach ($key in $response.continue.Keys) { $continuation[$key] = $response.continue[$key] }
-            }
-            Start-Sleep -Milliseconds 100
-        } while ($continuation.Count)
+        }
     }
     if (-not ($pages | Where-Object namespaceId -eq 0)) { throw 'Fandom returned no article pages.' }
 
+    $uploads = @(Save-WikiImages $stage $mirror | Sort-Object { $_.filename })
     $manifest = [ordered]@{
-        schemaVersion = 1
+        schemaVersion = 2
         api = $api
         language = $site.general.lang
         license = $site.rightsinfo
         pages = @($pages | Sort-Object { $_.namespaceId }, { $_.pageId })
+        uploads = $uploads
     }
     $json = $manifest | ConvertTo-Json -Depth 12
     [IO.File]::WriteAllText((Join-Path $stage 'manifest.json'), $json.Replace("`r`n", "`n") + "`n", $utf8)
 
     $status = git -C $root status --porcelain=v1 --untracked-files=all --ignored -- mirror
     if ($LASTEXITCODE -ne 0 -or $status) { throw 'The existing mirror changed during the import.' }
-    Assert-MirrorDirectory $stage
-    if (Test-Path -LiteralPath $mirror) {
-        Assert-MirrorDirectory $mirror
-        [IO.Directory]::Move($mirror, $backup)
-    }
-    try {
-        [IO.Directory]::Move($stage, $mirror)
-    } catch {
-        if (Test-Path -LiteralPath $backup) {
-            Assert-MirrorDirectory $backup
-            [IO.Directory]::Move($backup, $mirror)
-        }
-        throw
-    }
-    if (Test-Path -LiteralPath $backup) {
-        Assert-MirrorDirectory $backup
-        Remove-Item -LiteralPath $backup -Recurse -Force
-    }
-    Write-Output "Mirrored $($pages.Count) Fandom pages with their revision IDs."
+    Publish-WikiMirror $stage $mirror $backup
+    Write-Output "Mirrored $($pages.Count) Fandom pages and $($uploads.Count) uploaded images."
 } finally {
     try {
         if (Test-Path -LiteralPath $stage) {
