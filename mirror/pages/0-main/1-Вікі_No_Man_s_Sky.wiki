@@ -1,0 +1,32 @@
+<mainpage-leftcolumn-start/>
+<div style="text-align: center; font-size: x-large; padding: 1em;">'''Ласкаво просимо на українську {{SITENAME}}!'''</div>
+'''No Man's Sky'''&nbsp;— науково-фантастична гра про дослідження, мандри всесвітом і виживання, розроблена ''[[Hello Games]]'' (Гілфорд, Великобританія). У грі можна займатись дослідженням планет, глибин космосу й океанів, а також узяти участь у космічних битвах. Вам доведеться боротися за виживання в різноманітних, процедурно згенерованих світах. Кожна планета має власні екосистеми, скарби та небезпеки. На цьому базуються чотири «стовпи» гри: дослідження, боротьба, торгівля та виживання. Гра вийшла 12 серпня 2016 року у всьому світі на ПК, трохи раніше&nbsp;— на консолях PS. Запуск для Xbox відбувся 24 липня 2018 року.
+
+'''''P.&nbsp;S.:''' Вікі буквально нещодавно з'явилася на світ та потребує колосальної роботи. Поступово вона буде заповнена якісним українським контентом. Якщо вас це зацікавило, можете приєднатись, будемо раді співпрацювати.
+{{:Головна/Навігація по Вікі}}
+<mainpage-endcolumn/>
+
+<mainpage-rightcolumn-start/>
+<!-- Віджет Discord -->
+<div style="width: 100%; padding: 10px; border-radius: 14px 14px 0 0; border: 1px solid #FFCC00; text-align: center;">{{DiscordIntegrator
+|id     = 991434852060647474
+|width  = 100%
+|height = 306px
+}}</div>
+<!-- Популярні сторінки -->
+<div style="width: 100%; border: 1px solid #FFCC00; border-top: none; text-align: center;">
+<!--<div style="width: 100%; border-bottom: 1px solid #FC0;">
+<div style="display: inline-block; width: 50%; background: #FC0; color: black;">Популярні статті</div>
+<div style="display: inline-block; width: 50%; float: right;">Останні правки</div>
+</div>-->
+{{:Популярні сторінки}}
+</div>
+<!-- Останні правки -->
+<div style="margin-bottom: 18px; width: 100%; border-radius: 0 0 14px 14px; border: 1px solid #FFCC00; border-top: none; text-align: center;">
+{| style="width: 100%; border-spacing: 15px;"
+! style="font-size: large;" | Останні правки
+|-
+| style="text-align: left;" | {{ActivityFeed|size=6}}
+|}
+</div>
+<mainpage-endcolumn/>

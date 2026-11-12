@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap'); /* Імпорт шрифта(-ів) */
+@import url('https://dev.fandom.com/load.php?mode=articles&articles=u:dev:MediaWiki:ActivityFeedMimic.css&only=styles'); /* CSS для {{ActivityFeed}} */
+
+/* ЗМІННІ */
+:root {
+	/* Фон сторінок */
+	--theme-page-background-color: rgba(19, 17, 39, 0.90) !important;
+	/* Текст в {{ActivityFeed}} */
+	--activityfeed-msg-new-page: "Нова сторінка:";
+    --activityfeed-msg-created-by: " (Н) >";
+    --activityfeed-msg-edited-by: " >";
+}
+
+/* ЗАСТОСУВАННЯ ШРИФТА(-ІВ) */
+body.skin-fandomdesktop, .ve-fd-header { font-family: 'Didact Gothic', sans-serif; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Didact Gothic', sans-serif !important; }
+
+/* ІНШЕ */
+.borderRadImg { border-radius: 7px; } /* Заокруглення зображень */
+.popularArticles td { vertical-align: top; }
+.popularArticles img {
+	width: 120px;
+	object-fit: cover;
+	border: 1px solid var(--theme-border-color);
+}
+/*.activityfeed { columns: 2; }*/ /* Поділ {{ActivityFeed}} на колонки */
+/*.activityfeed .mw-changeslist-line:nth-child(6) { padding-top: 53px; }*/ /* Відступ для 6-го елементу (1-го в правій колонці) списку нещодавніх змін */
+.mw-parser-output .activityfeed .mw-changeslist-line:not(:first-child), .mw-parser-output .activityfeed h4:not(:first-of-type) { margin-top: 0; }
+.mw-changeslist-separator--semicolon { display: none !important; } /* Приховання ; перед кожним редагуванням в {{ActivityFeed}} */
+.activityfeed .newpage ~ .comment { display: none !important; } /* Приховання опису новостворених сторінок в {{ActivityFeed}} */

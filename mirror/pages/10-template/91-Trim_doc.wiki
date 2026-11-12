@@ -1,0 +1,7 @@
+;Description
+This template trims whitespace from the beginning and end of the supplied value. It works by using the simple hack of filtering it through the <code>#if</code> parser function.
+
+;Syntax
+ <nowiki>{{trim|  value }}</nowiki>
+
+<includeonly>[[Category:General wiki templates]]</includeonly><noinclude>[[Category:Template documentation]]</noinclude>

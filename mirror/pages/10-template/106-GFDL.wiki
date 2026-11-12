@@ -1,0 +1,3 @@
+
+{{LicenseBox|text=''This file is licensed under the GFDL. Permission is granted to copy, distribute and/or modify this image under the terms of the '''[[Wikipedia:Text of the GNU Free Documentation License|GNU Free Documentation License]]''', Version 1.2 or any later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.''}}{{#ifeq: {{NAMESPACENUMBER}} | 0 | <includeonly>[[Category:GFDL files]]</includeonly>}}<noinclude>
+{{documentation}}</noinclude>

@@ -1,0 +1,2 @@
+{{LicenseBox|text=''This file  is copyrighted. It will be used in a way that qualifies as fair use under US copyright law.''}}{{#ifeq: {{NAMESPACENUMBER}} | 0 | <includeonly>[[Category:Fairuse files]]</includeonly>}}<noinclude>
+{{documentation}}</noinclude>

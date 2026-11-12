@@ -1,0 +1,1 @@
+This module is invoked by the {{t|Dialogue}} template.

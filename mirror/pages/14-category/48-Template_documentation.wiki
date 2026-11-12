@@ -1,0 +1,2 @@
+The templates in this category contain documentation about other templates. The are automatically put here by the {{T|Documentation}} template.
+[[Category:Templates]]

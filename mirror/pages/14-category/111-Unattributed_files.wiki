@@ -1,0 +1,9 @@
+__EXPECTUNUSEDCATEGORY__
+The files in this category do not have an appropriate license selected and are tagged with the {{t|nolicense}} template. 
+
+Administrators should review files in this category and either:
+* Update the file page with an appropriate if one can be easily determined.
+* Delete the image, though it is good idea to give the uploader a chance to select a license first.
+
+[[Category:Images]]
+[[Category:Maintenance]]

@@ -1,0 +1,2 @@
+{{LicenseBox|text=''This file is licensed under a free license.''}}{{#ifeq: {{NAMESPACENUMBER}} | 0 | <includeonly>[[Category:Freely licensed files]]</includeonly>}}<noinclude>
+{{documentation}}</noinclude>

@@ -1,0 +1,1 @@
+This is a sub-module of [[Module:Mbox]] and is used to specify the CSS properties for message boxes.

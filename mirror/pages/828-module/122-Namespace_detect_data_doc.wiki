@@ -1,0 +1,1 @@
+This module holds data for [[Module:Namespace detect]] to be loaded per page, rather than per #invoke, for performance reasons.

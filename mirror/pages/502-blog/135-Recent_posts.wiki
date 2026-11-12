@@ -1,0 +1,1 @@
+<bloglist summary="true" count=50><title>⧼create-blog-post-recent-listing-title ⧽</title><type>plain</type><order>date</order></bloglist>

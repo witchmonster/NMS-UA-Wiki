@@ -1,0 +1,5 @@
+/.gitattributes text eol=lf
+*.ps1 text eol=lf
+*.md text eol=lf
+/mirror/manifest.json text eol=lf
+/mirror/pages/** -text

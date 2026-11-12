@@ -1,0 +1,27 @@
+{|width=100% cellspacing=12px class="notice metadata plainlinks" style="border-radius: 14px 14px 0 0; border: 1px solid #FFCC00; text-align: center;"
+!colspan=4 style="font-size: 150%"|Всесвіт
+|-
+|[[Файл:Галактики (іконка_навігації).jpg|180px|link=Галактики|class=borderRadImg]][[Галактики]]
+|[[Файл:Зоряні системи (іконка навігації).jpg|180px|link=Зоряні системи|class=borderRadImg]][[Зоряні системи]]
+|[[Файл:Планети (іконка навігації).jpg|180px|link=Планети|class=borderRadImg]][[Планети]]
+|[[Файл:Космічні станції (іконка навігації).jpg|180px|link=Космічні станції|class=borderRadImg]][[Космостанції]]
+|-
+|[[Файл:Флора та фауна (іконка навігації).jpg|180px|link=Флора та фауна|class=borderRadImg]][[Флора та фауна]]
+|[[Файл:Ресурси (іконка навігації).jpg|180px|link=Ресурси|class=borderRadImg]][[Ресурси]]
+|[[Файл:Вартові (іконка навігації).jpg|180px|link=Вартові|class=borderRadImg]][[Вартові]]
+|[[Файл:Раси (іконка навігації).jpg|180px|link=Раси|class=borderRadImg]][[Раси]]
+|}
+
+{|width=100% cellspacing=12px class="notice metadata plainlinks" style="margin-bottom: 18px; border-radius: 0 0 14px 14px; border: 1px solid #FFCC00; border-top: none; text-align: center;"
+!colspan=4 style="font-size: 150%;"|Технології
+|-
+|[[Файл:Всюдиходи (іконка навігації).jpg|180px|link=Всюдиходи|class=borderRadImg]][[Планетоходи]]
+|[[Файл:Зорельоти (іконка навігації).jpg|180px|link=Зорельоти|class=borderRadImg]][[Зорельоти]]
+|[[Файл:Фрахтувальники (іконка навігації).jpg|180px|link=Фрахтувальники|class=borderRadImg]][[Фрахтувальники]]
+|[[Файл:Будівництво (іконка навігації).jpg|180px|link=Будівництво|class=borderRadImg]][[Будівництво]]
+|-
+|[[Файл:Екзокостюм (іконка_навігації).jpg|180px|link=Екзокостюм|class=borderRadImg]][[Екзокостюм]]
+|[[Файл:Мультитул (іконка навігації).jpg|180px|link=Мультитул|class=borderRadImg]][[Конфігуратор]]
+|[[Файл:Модулі (іконка навігації).jpg|180px|link=Модулі|class=borderRadImg]][[Модулі]]
+|[[Файл:Крафт (іконка навігації).jpg|180px|link=Крафт|class=borderRadImg]][[Виготовлення]]
+|}

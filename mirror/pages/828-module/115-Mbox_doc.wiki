@@ -1,0 +1,1 @@
+This module is used by most of the basic [[:Category:Notice templates|Notice templates]] and is invoked by {{t|MessageBox}}.

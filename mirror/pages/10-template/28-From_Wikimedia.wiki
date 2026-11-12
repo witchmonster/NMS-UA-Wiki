@@ -1,0 +1,2 @@
+{{LicenseBox|text=''This file was originally uploaded on Wikipedia or another Wikimedia project.''}}{{#ifeq: {{NAMESPACENUMBER}} | 0 | <includeonly>[[Category:Files from WikiMedia projects]]</includeonly>}}<noinclude>
+{{documentation}}</noinclude>

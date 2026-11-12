@@ -1,0 +1,7 @@
+;Description
+:This template is used when escaping <code>=</code> when contained in [[w:Help:Parser functions|Parser functions]].
+;This template cannot be substituted.
+;Syntax
+:Insert this template using <code>{{t|{{=}}}}</code>
+
+<includeonly>[[Category:General wiki templates]]</includeonly><noinclude>[[Category:Template documentation]]</noinclude>

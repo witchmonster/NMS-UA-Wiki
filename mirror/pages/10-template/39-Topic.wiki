@@ -1,0 +1,1 @@
+<includeonly>{{#sub:{{#replace:{{SITENAME}}| Wiki}}|-{{#len:{{#replace:{{SITENAME}}| Wiki}}}}-1}}</includeonly><noinclude>{{documentation}}</noinclude>

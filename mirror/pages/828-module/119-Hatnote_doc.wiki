@@ -1,0 +1,1 @@
+This module is invoked by the {{t|Hatnote}} template, which is used by a number of [[:Category:Notice templates|Notice templates]].

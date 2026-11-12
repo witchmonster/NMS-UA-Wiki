@@ -1,0 +1,2 @@
+{{LicenseBox|text=''This file was uploaded by the photographer or author.''}}{{#ifeq: {{NAMESPACENUMBER}} | 0 | <includeonly>[[Category:Files uploaded by the photographer or author]]</includeonly>}}<noinclude>
+{{documentation}}</noinclude>

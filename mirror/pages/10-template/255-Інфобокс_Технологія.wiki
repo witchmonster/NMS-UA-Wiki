@@ -1,0 +1,98 @@
+<includeonly>
+<infobox>
+	<title source="назва">
+		<default>{{PAGENAME}}</default>
+	</title>
+	<image source="зображення"/>
+	<group layout="horizontal">
+		<data source="опис">
+			<label> </label>
+		</data>
+	</group>
+	<data source="категорія">
+		<label>Категорія</label>
+	</data>
+	<data source="тип">
+		<label>Тип</label>
+	</data>
+	<data source="характерист">
+		<label>Характерист.</label>
+	</data>
+	<data source="перезарядка">
+		<label>Перезарядка</label>
+	</data>
+	<data source="вартість">
+		<label>Вартість</label>
+	</data>
+</infobox>
+</includeonly><noinclude>
+<pre>
+{{Інфобокс:Технологія
+  | назва        =
+  | зображення   =
+  | опис         =
+  | категорія    =
+  | тип          =
+  | характерист  =
+  | перезарядка  =
+  | вартість     =
+}}
+</pre>
+{{Інфобокс:Технологія
+| назва        = Назва
+| опис         = Опис
+| категорія    = 1
+| тип          = 2
+| характерист  = 3
+| перезарядка  = 4
+| вартість     = 5
+}}
+;назва:Назва технології (параметр використовує назву статті за замовчанням)
+;зображення:Назва вказується без ''Файл:''
+;опис:Опис технології
+;категорія:Категорія та підкатегорія технології
+;тип
+;характерист
+;перезарядка
+;вартість
+<!--
+<templatedata>{
+"params": {
+	"назва": {
+		"description": "Назва технології (параметр використовує назву статті за замовчанням)",
+		"required": false,
+		"type": "string"
+	},
+	"зображення": {
+		"description": "Назва вказується без «Файл:»",
+		"required": false
+	},
+	"опис": {
+		"description": "Опис технології",
+		"suggested": true,
+		"type": "string"
+	},
+	"категорія": {
+		"suggested": true,
+		"type": "string"
+	},
+	"тип": {
+		"suggested": true,
+		"type": "string"
+	},
+	"характ": {
+		"suggested": true,
+		"type": "string"
+	},
+	"перезарядка": {
+		"suggested": true,
+		"type": "string"
+	},
+	"вартість": {
+		"suggested": true,
+		"type": "string"
+	}
+}
+}</templatedata>
+-->
+</noinclude>

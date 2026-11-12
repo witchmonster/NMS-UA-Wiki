@@ -1,0 +1,2 @@
+{{LicenseBox|text=''This file is licensed under the [http://creativecommons.org/licenses/by-sa/3.0/ Creative Commons Attribution-Share Alike License].''}}{{#ifeq: {{NAMESPACENUMBER}} | 0 | <includeonly>[[Category:CC-BY-SA files]]</includeonly>}}<noinclude>
+{{documentation}}</noinclude>

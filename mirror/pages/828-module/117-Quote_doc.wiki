@@ -1,0 +1,1 @@
+This module is used by most of the basic [[:Category:Quote templates|Quote templates]] and is invoked by {{t|Quote}}.

@@ -1,0 +1,44 @@
+<div class="activityfeed">
+{{Special:RecentChanges
+|limit={{{limit|{{{size|10}}}}}}
+|namespace={{{namespace|0;1;2;3;6;10;110;500;}}}
+|enhanced=0
+|{{#ifeq|{{{onlylast}}}|true|hidepreviousrevisions=1}}
+|hidebots=1
+|hidelog=1
+}}
+</div><noinclude>
+
+
+----
+
+
+== Template Documentation ==
+This template is intended to be used after importing the [[w:c:dev:ActivityFeedMimic|ActivityFeedMimic]] stylesheet. It uses the native [[Special:RecentChanges]] in it's embbeded-in-page version, and lets the imported stylesheet to give it a simplified look, similar to the look of the depreceated <code><nowiki><activityfeed/></nowiki></code> tag.
+
+; Simple Usage
+: <pre>{{ActivityFeed}}</pre>
+
+; Advanced Usage
+: The template can be supplied with a few parameters
+{| class="article-table" cell-spacing="10"
+! Parameter !! Effect !! style="width:50%;" | Default value
+|-
+! limit
+| The number of entries to list || 10
+|-
+! size
+| Same as '''limit''' (provided for compatability with <code><nowiki><activityfeed size="..."/></nowiki></code>) || 10
+|-
+! namespace
+| List of namespace numbers to show, sepearated by a semicolon || 0;1;2;3;6;10;110;500<br/><br/>(which means '''Main, Talk, User, User&nbsp;talk, File, Template, Forum, User&nbsp;blog''')
+|-
+! onlylast
+| If set to '''true''', shows only the last edit of each page.<br/><br/>This will prevent multiple edits of the same page from taking up the feed (Grouped edits are not supported by this stylesheet) || true
+|}
+
+; Other Options
+: The local copy of the template may be edited to fit the community needs, but be careful not to break it.
+
+[[Категорія:Шаблони]]
+</noinclude>

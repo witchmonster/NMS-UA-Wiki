@@ -1,0 +1,2 @@
+{{LicenseBox|text=''This file does not have information on its copyright status.''}}{{#ifeq: {{NAMESPACENUMBER}} | 0 | <includeonly>[[Category:Unattributed files]]</includeonly>}}<noinclude>
+{{documentation}}</noinclude>
