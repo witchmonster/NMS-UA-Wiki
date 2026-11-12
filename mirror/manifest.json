@@ -245,17 +245,17 @@
       "pageId": 267,
       "namespaceId": 0,
       "title": "Біоми",
-      "revisionId": 572,
-      "revisionTimestamp": "2026-10-26T04:46:36Z",
+      "revisionId": 579,
+      "revisionTimestamp": "2026-11-12T03:27:55Z",
       "redirect": false,
-      "revisionUrl": "https://no-mans-sky.fandom.com/uk/wiki/%D0%91%D1%96%D0%BE%D0%BC%D0%B8?oldid=572",
+      "revisionUrl": "https://no-mans-sky.fandom.com/uk/wiki/%D0%91%D1%96%D0%BE%D0%BC%D0%B8?oldid=579",
       "historyUrl": "https://no-mans-sky.fandom.com/uk/wiki/%D0%91%D1%96%D0%BE%D0%BC%D0%B8?action=history",
       "slots": {
         "main": {
           "file": "pages/0-main/267-Біоми.wiki",
           "contentModel": "wikitext",
           "contentFormat": "text/x-wiki",
-          "sha256": "6b1914a2eae7f358872276487c0df0279441bde0172ad9cad5b7647456699d63"
+          "sha256": "417513de51b949fa88c5fc4365001893a623c15fd285afcbb2d2fc402664c457"
         }
       }
     },
